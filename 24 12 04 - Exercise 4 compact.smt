@@ -1,0 +1,25 @@
+(declare-datatypes () ((Tile t1 t2 t3 t4 t5 t6 t7 t8 t9)))
+
+(declare-fun Right (Tile) Int)
+(declare-fun Left (Tile) Int)
+(declare-fun Up (Tile) Int)
+(declare-fun Down (Tile) Int)
+
+(declare-fun Position (Tile) Int)
+(assert (forall ((x Tile)) (and (<= 1 (Position x)) (<= (Position x) 9))))
+(assert (forall ((x Tile) (y Tile)) (=> (not(= x y)) (not (= (Position x) (Position y))))))
+(assert (forall ((x Tile) (y Tile)) (=> (and (= (Position y) (+ 1 (Position x))) (not (or (= (Position x) 3)(= (Position x) 6))))(= (Right x) (Left y)))))
+(assert (forall ((x Tile) (y Tile)) (=> (= (Position y) (+ 3 (Position x))) (= (Down x) (Up y)))))
+
+(assert (and (= (Left t1) 3) (= (Right t1) 8) (= (Up t1) 3) (= (Down t1) 1)))
+(assert (and (= (Left t2) 8) (= (Right t2) 1) (= (Up t2) 1) (= (Down t2) 6)))
+(assert (and (= (Left t3) 3) (= (Right t3) 8) (= (Up t3) 0) (= (Down t3) 3)))
+(assert (and (= (Left t4) 7) (= (Right t4) 2) (= (Up t4) 6) (= (Down t4) 6)))
+(assert (and (= (Left t5) 2) (= (Right t5) 5) (= (Up t5) 4) (= (Down t5) 0)))
+(assert (and (= (Left t6) 4) (= (Right t6) 7) (= (Up t6) 3) (= (Down t6) 5)))
+(assert (and (= (Left t7) 5) (= (Right t7) 3) (= (Up t7) 9) (= (Down t7) 0)))
+(assert (and (= (Left t8) 1) (= (Right t8) 1) (= (Up t8) 4) (= (Down t8) 4)))
+(assert (and (= (Left t9) 8) (= (Right t9) 8) (= (Up t9) 4) (= (Down t9) 4)))
+
+(check-sat)
+(get-value ((Position t1) (Position t2) (Position t3) (Position t4) (Position t5) (Position t6) (Position t7) (Position t8) (Position t9)))
